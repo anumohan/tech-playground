@@ -75,92 +75,17 @@ if __name__ == "__main__":
 Run in Windows
 -----------------------------------------------
 set FLASK_APP=app.py
-set PYTHONPATH=D:\working\tryouts\flask_app
+set PYTHONPATH=D:\working\github\anumohan\tech-playground\flask_app
 flask run
+flask run --host=0.0.0.0 --port=8080
+
+Running Flask with Gunicorn (Production)
+gunicorn -w 4 -b 0.0.0.0:5000 app:app
 -----------------------------------------------
 
 export FLASK_APP=app.py - Linux/macOS
 set FLASK_APP=app.py - Windows (Command Prompt)
 $env:FLASK_APP="app.py"  - Windows (PowerShell)
-flask run --host=0.0.0.0 --port=8080
-
-Running Flask with Gunicorn (Production)
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
 
 '''    
 
-
-
-
-'''
-
-✅ How to Make Flask Sessions More Secure
-
-🔒 1. Use a Strong Secret Key
-import os
-app.secret_key = os.urandom(32)  # Generates a 32-byte random key
-app.config['SECRET_KEY'] = os.urandom(32)
-
-
-🔒 2. Use HTTPS Only (SSL/TLS)
-Always enable HTTPS to encrypt data during transit.
-app.config['SESSION_COOKIE_SECURE'] = True  # Ensures cookies are only sent over HTTPS
-
-
-🔒 3. Enable HTTPOnly Cookies
-Prevent JavaScript from accessing the session cookie.
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevents JavaScript access
-
-
-🔒 4. Use SameSite Cookies
-Restricts sending cookies with cross-site requests to prevent Cross-Site Request Forgery (CSRF).
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # or 'Strict'
-
-
-🔒 5. Regularly Rotate Secret Keys
-Regenerate your secret key periodically to limit the impact of key compromise.
-
-
-
-🔒 6. Avoid Storing Sensitive Data in Sessions
-Avoid storing sensitive information like passwords or credit card details.
-session['username'] = 'john_doe'  # Safe
-session['password'] = 'supersecret'  # ❌ Dangerous
-
-
-🔒 7. Use Server-Side Session Stores
-Instead of relying on client-side cookies, store sessions server-side using:
-- Redis
-- Memcached
-- Database (SQLAlchemy)
-
-
-🔒 8. Regenerate Session ID on Login
-Prevent session fixation attacks by regenerating the session ID when a user logs in.
-from flask import session
-
-@app.route('/login', methods=['POST'])
-def login():
-    session.pop('_flashes', None)  # Clear existing session data
-    session['user_id'] = 123
-    session.permanent = True
-    return "Logged in successfully"
-
-
-🔒 9. Implement Session Timeout
-Automatically expire sessions after a period of inactivity.
-from datetime import timedelta
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
-
-
-🔒 10. Clear Sessions on Logout
-Explicitly clear session data when the user logs out.
-@app.route('/logout')
-def logout():
-    session.clear()  # Clear all session data
-    return "You have been logged out"
-
-
-
-
-'''
