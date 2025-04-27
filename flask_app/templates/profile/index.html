@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile List</title>
+</head>
+<body>
+    <h1>Profile List</h1>
+    <ul>
+        {% for user in profiles %}
+            <li>{{ user.first_name }} ({{ user.age }} years old)</li>
+        {% endfor %}
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
+</html>
